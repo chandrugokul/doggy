@@ -1,0 +1,12 @@
+.groom
+{
+    top: 10%;
+    text-align: center;
+    padding: 20px;
+}
+
+#search_box
+{
+    width: 50%;
+    height: auto;
+}
