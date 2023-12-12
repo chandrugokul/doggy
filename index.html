@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+        <title>Stocker Generator</title>
+        <style>
+            body
+            {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 20px;
+            }
+            .header
+            {
+                margin-top: 2%;
+                text-align: center;
+            }
+            #tbl_exporttable_to_xls
+            {
+                font-size: 25px;
+                padding: 5px;
+                /* border: 1px solid gray; */
+                margin-top: 2%;
+                margin: auto;
+            }
+            td
+            {
+                text-align: center;
+            }
+            tr
+            {
+                padding: 2%;
+            }
+            .addstock
+            {
+                padding: 2%;
+            }
+            .addstock input
+            {
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="header">
+            <h1>Stocker Generator</h1>
+
+            <div class="addstock">
+                <input type="text" placeholder="Name" id="name">
+                <!-- <input type="number" placeholder="Quantity" id="qty">
+                <input type="number" placeholder="Price" id="price"> -->
+                <button onclick="addrow()">Add Row</button>
+            </div>
+
+            <table id="tbl_exporttable_to_xls">
+                <thead>
+                    <th style="width: fit-content;">Sr</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </thead>
+                <tbody class="items">
+                </tbody>
+            </table>
+            <button onclick="ExportToExcel('xlsx')">Export table to excel</button>
+        </div>
+
+        <script>
+            function ExportToExcel(type, fn, dl) {
+                var elt = document.getElementById('tbl_exporttable_to_xls');
+                var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+                return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+                XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
+            }
+
+            function addrow()
+            {
+                var Row = document.createElement('tr');
+                Row.classList.add('row');
+                var Items = document.getElementsByClassName('items')[0];
+                var sno=document.getElementsByClassName('items')[0].childNodes.length;
+                console.log(sno);
+                var name= document.getElementById('name').value;
+                // var qty=document.getElementById('qty').value;
+                // var price=document.getElementById('price').value;
+
+
+                var cartRowContents = `
+                        <tr>
+                        <td style="width: 30px;text-align: center;">${sno}</td>
+                        <td>${name}</td>
+                        <td><input style="width: 70px;text-align: center;" type="number"></td>
+                        <td><input style="width: 170px;text-align: center;" type="number"></td>
+                        </tr>`;
+                Row.innerHTML = cartRowContents;
+                Items.append(Row);
+            }
+        </script>
+
+    </body>
+</html>
