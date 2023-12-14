@@ -2,6 +2,8 @@
     <head>
         <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
         <title>Stocker Generator</title>
+
+        <!-- <script src="script.js"></script> -->
         <style>
             body
             {
@@ -42,13 +44,16 @@
 
     <body>
         <div class="header">
-            <h1>Stocker Generator</h1>
+            <h1>Bulk Order Generator</h1>
+
+            
 
             <div class="addstock">
-                <input type="text" placeholder="Name" id="name">
+
+                <!-- <input type="text" placeholder="Name" id="name">
                 <input type="number" placeholder="Quantity" id="qty">
                 <input type="number" placeholder="Price" id="price">
-                <button onclick="addrow()">Add Row</button>
+                <button onclick="addrow()">Add Row</button> -->
             </div>
 
             <table id="tbl_exporttable_to_xls">
@@ -56,13 +61,14 @@
                     <th style="width: fit-content;">Sr</th>
                     <th>Name</th>
                     <th>Quantity</th>
-                    <th>Price</th>
                 </thead>
                 <tbody class="items">
                 </tbody>
             </table>
             <button onclick="ExportToExcel('xlsx')">Export table to excel</button>
         </div>
+
+        <button onclick="Func()"> checker</button>
 
         <script>
             function ExportToExcel(type, fn, dl) {
@@ -73,34 +79,66 @@
                 XLSX.writeFile(wb, fn || ('stocker.' + (type || 'xlsx')));
             }
 
-            function addrow()
+            function addrow(prod_name)
             {
                 var Row = document.createElement('tr');
                 Row.classList.add('row');
                 var Items = document.getElementsByClassName('items')[0];
                 var sno=document.getElementsByClassName('items')[0].childNodes.length;
                 console.log(sno);
-                var name= document.getElementById('name').value;
-                var qty=document.getElementById('qty').value;
-                var price=document.getElementById('price').value;
+                var name =prod_name;
+                // var name= document.getElementById('name').innerHTML;
+                // var qty=document.getElementById('qty').value;
+                // var price=document.getElementById('price').value;
 
                 var cartRowContents = `
-                        <tr>
                         <td style="width: 30px;text-align: center;">${sno}</td>
                         <td>${name}</td>
-                        <td>${qty}</td>
-                        <td>${price}</td>
-                        <td><button onclick="removeitem(${sno})">Remove</button></td>
-                        </tr>`;
+                        <td>1</td>`;
                 
                 Row.innerHTML = cartRowContents;
                 Items.append(Row);
             }
+            
+
+            
+            
+            function hideinput()
+            {
+                document.getElementById('input_field').style.display='none';
+            }
+            
 
             function removeitem(i)
             {
                 document.getElementsByTagName('tr')[i].remove();
             }
+
+
+            function Func() {
+            const product =["Shampoo","Rice","Cashew_Nuts"];
+
+                for (let x in product)
+                {
+                    console.log(product[x]);
+                    var prod=product[x];
+
+                    var data_cell=document.createElement('td');
+                    var stocks= document.getElementsByClassName('addstock')[0];
+                    console.log(stocks);
+
+                    var product_btn=`<button value=${prod} onclick="addrow(value)">${prod}</button>`;
+                    
+                    data_cell.innerHTML=product_btn;
+                    stocks.append(data_cell);
+
+                }
+            }
+            
+
+            // const sample = require('data/bulk_order.json');
+            // console.log(sample);
+
         </script>
 
     </body>
