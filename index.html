@@ -10,67 +10,100 @@
                 font-family: Arial, Helvetica, sans-serif;
                 font-size: 20px;
             }
+
             .header
             {
-                margin-top: 2%;
                 text-align: center;
+                width: 100%;
             }
+
             #tbl_exporttable_to_xls
             {
                 font-size: 25px;
                 padding: 5px;
                 /* border: 1px solid gray; */
-                margin-top: 2%;
-                margin: auto;
+                margin-left: 20%;
+                margin-right: 20%;
             }
+
             td
             {
                 text-align: center;
             }
+
             tr
             {
                 padding: 2%;
             }
+
             .addstock
             {
-                padding: 2%;
+                border: 1px solid gray;
+                overflow: scroll;
+                width: 25%;
+                float: left;
             }
-            .addstock input
+
+            .addstock td
+            {
+                padding: 1%;
+                display: block;
+            }
+
+            .productlist
             {
                 text-align: center;
+                border: 2px solid gray;
+                width: 70%;
+                float: right;
             }
+            table thead tr th
+            {
+                text-align: center;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
         </style>
     </head>
 
     <body>
         <div class="header">
             <h1>Bulk Order Generator</h1>
-
-            
-
-            <div class="addstock">
-
-                <!-- <input type="text" placeholder="Name" id="name">
-                <input type="number" placeholder="Quantity" id="qty">
-                <input type="number" placeholder="Price" id="price">
-                <button onclick="addrow()">Add Row</button> -->
-            </div>
-
-            <table id="tbl_exporttable_to_xls">
-                <thead>
-                    <th style="width: fit-content;">Sr</th>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                </thead>
-                <tbody class="items">
-                </tbody>
-            </table>
-            <button onclick="ExportToExcel('xlsx')">Export table to excel</button>
         </div>
 
-        <button onclick="Func()"> checker</button>
+        <div class="container">
+            
+            <div class="stock">
+                <h2>Product List</h2>
+                <div class="addstock">
+                </div>
+            </div>
+            
+            <div class="productlist">
+                <button onclick="ExportToExcel('xlsx')">Export table to excel</button>
+                <table id="tbl_exporttable_to_xls">
+                    <thead>
+                        <th style="width: fit-content;">Sr</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                    </thead>
+                    <tbody class="items">
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
 
         <script>
+            if (document.readyState == 'loading'){
+                document.addEventListener('DOMContentLoaded' , Func);
+            }
+            else{
+                Func();
+            }
+
             function ExportToExcel(type, fn, dl) {
                 var elt = document.getElementById('tbl_exporttable_to_xls');
                 var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
@@ -90,7 +123,6 @@
                 // var name= document.getElementById('name').innerHTML;
                 // var qty=document.getElementById('qty').value;
                 // var price=document.getElementById('price').value;
-
                 var cartRowContents = `
                         <td style="width: 30px;text-align: center;">${sno}</td>
                         <td>${name}</td>
@@ -99,24 +131,19 @@
                 Row.innerHTML = cartRowContents;
                 Items.append(Row);
             }
-            
-
-            
-            
+        
             function hideinput()
             {
                 document.getElementById('input_field').style.display='none';
             }
             
-
             function removeitem(i)
             {
                 document.getElementsByTagName('tr')[i].remove();
             }
 
-
             function Func() {
-            const product =["Shampoo","Rice","Cashew_Nuts"];
+                const product =["Shampoo","Rice","Cashew_Nuts"];
 
                 for (let x in product)
                 {
@@ -135,10 +162,8 @@
                 }
             }
             
-
             // const sample = require('data/bulk_order.json');
             // console.log(sample);
-
         </script>
 
     </body>
